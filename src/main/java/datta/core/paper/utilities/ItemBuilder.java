@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static datta.core.paper.utilities.Color.format;
+import static datta.core.paper.utilities.Color.co;
 import static datta.core.paper.utilities.Color.formatList;
 
 
@@ -45,7 +45,7 @@ public class ItemBuilder {
     }
 
     private void setupItemMeta(ItemStack itemStack, ItemMeta itemMeta) {
-        itemMeta.setDisplayName(format(displayName));
+        itemMeta.setDisplayName(datta.core.paper.utilities.Color.co(displayName));
         itemMeta.setLore(formatList(lore));
         itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DYE);
         itemMeta.setUnbreakable(true);

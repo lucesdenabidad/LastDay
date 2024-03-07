@@ -1,10 +1,7 @@
 package datta.core.paper.utilities;
 
 import datta.core.paper.Core;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -12,7 +9,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-import static datta.core.paper.utilities.Color.format;
+import static datta.core.paper.utilities.Color.co;
 
 /**
  * This code has been created by
@@ -23,20 +20,16 @@ import static datta.core.paper.utilities.Color.format;
  */
 public class Utils {
 
-    public static void sendA(Player player, String msg) {
-        player.sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(format(msg)));
+    public static Location center(Location location) {
+
+        World world = location.getWorld();
+        double x = location.getBlockX() + 0.5;
+        double y = location.getBlockY();
+        double z = location.getBlockZ() + 0.5;
+
+        Location centerLocation = new Location(world, x, y, z);
+        return centerLocation;
     }
-
-    public static void send(CommandSender sender, String... msg) {
-        if (sender instanceof Player) {
-            ((Player) sender).playSound(((Player) sender).getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-        }
-
-        for (String s : msg) {
-            sender.sendMessage(format(s));
-        }
-    }
-
 
     public static Location[] sLocation(String input) {
         String[] parts = input.split("\\s+");
@@ -65,7 +58,7 @@ public class Utils {
         }
     }
 
-/* Posibles input */
+    /* Posibles input */
 /*    private final List<Material> materials = List.of(
             Material.WHITE_WOOL,
             Material.ORANGE_WOOL,
@@ -154,7 +147,7 @@ public class Utils {
         double y = mantenerY ? pos1.getY() : randomDouble(pos1.getY(), pos2.getY());
         double z = randomDouble(pos1.getZ(), pos2.getZ());
 
-        return new Location(world, x, y, z).toCenterLocation();
+        return center(new Location(world, x, y, z));
     }
 
     private static double randomDouble(double min, double max) {
@@ -214,14 +207,14 @@ public class Utils {
         int[] countdownTime = new int[]{time};
         countdownTask = Bukkit.getScheduler().runTaskTimer(Core.getInstance(), () -> {
             if (countdownTime[0] > 0) {
-                Bukkit.getOnlinePlayers().forEach(t -> t.sendTitle(format("&a&l" + countdownTime[0]), ""));
-                Bukkit.broadcastMessage(format("&e&lEvento &8> &fEl nivel inicia en &a" + countdownTime[0] + "&f."));
+                Bukkit.getOnlinePlayers().forEach(t -> t.sendTitle(co("&a&l" + countdownTime[0]), ""));
+                Bukkit.broadcastMessage(co("&e&lEvento &8> &fEl nivel inicia en &a" + countdownTime[0] + "&f."));
                 Bukkit.getOnlinePlayers().forEach(t -> t.playSound(t.getLocation(), Sound.UI_BUTTON_CLICK, 1, 2));
                 countdownTime[0]--;
             } else {
                 runnable.run();
-                Bukkit.broadcastMessage(format("&e&lEvento &8> &f¡Buena suerte!"));
-                Bukkit.getOnlinePlayers().forEach(t -> t.sendTitle(format("&a&l¡YA!"), format("&8> &f¡Buena suerte! &8<")));
+                Bukkit.broadcastMessage(co("&e&lEvento &8> &f¡Buena suerte!"));
+                Bukkit.getOnlinePlayers().forEach(t -> t.sendTitle(co("&a&l¡YA!"), co("&8> &f¡Buena suerte! &8<")));
                 Bukkit.getOnlinePlayers().forEach(t -> t.playSound(t.getLocation(), Sound.ENTITY_WITHER_BREAK_BLOCK, 1, 2));
                 Bukkit.getScheduler().cancelTask(countdownTask);
             }
@@ -229,14 +222,14 @@ public class Utils {
     }
 
     public static void eliminateDeath(Player player) {
-        Bukkit.broadcastMessage(format("&e&lEvento &8> &f¡Se ha eliminado a &a" + player.getName() + "&f!"));
+        Bukkit.broadcastMessage(co("&e&lEvento &8> &f¡Se ha eliminado a &a" + player.getName() + "&f!"));
         player.getLocation().getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
         player.setHealth(0);
         player.removeMetadata("palitoxdddd", Core.getInstance());
     }
 
     public static void eliminate(Player player) {
-        Bukkit.broadcastMessage(format("&e&lEvento &8> &f¡Se ha eliminado a &a" + player.getName() + "&f!"));
+        Bukkit.broadcastMessage(co("&e&lEvento &8> &f¡Se ha eliminado a &a" + player.getName() + "&f!"));
         player.getLocation().getWorld().spigot().strikeLightningEffect(player.getLocation(), false);
         player.kickPlayer(ChatColor.translateAlternateColorCodes('&', "&c¡Gracias por participar!"));
         player.removeMetadata("palitoxdddd", Core.getInstance());
@@ -318,5 +311,37 @@ public class Utils {
             default:
                 return ChatColor.RESET;
         }
+    }
+
+    public static String getHealthBar(Player player) {
+        int maxHealth = 20;
+        int health = (int) player.getHealth();
+        int missingHearts = maxHealth / 2 - health / 2;
+
+        StringBuilder healthBar = new StringBuilder();
+        for (int i = 0; i < health / 2; i++) {
+            healthBar.append("❤");
+        }
+        for (int i = 0; i < missingHearts; i++) {
+            healthBar.append("&7❤");
+        }
+
+        return healthBar.toString();
+    }
+
+    public static String getFoodBar(Player player) {
+        int foodLevel = player.getFoodLevel();
+        int maxFoodLevel = 20;
+        int heartsPerFood = maxFoodLevel / 2;
+
+        StringBuilder foodBar = new StringBuilder();
+        for (int i = 0; i < foodLevel / 2; i++) {
+            foodBar.append("🍖");
+        }
+        for (int i = 0; i < (maxFoodLevel - foodLevel) / 2; i++) {
+            foodBar.append("🍖");
+        }
+
+        return foodBar.toString();
     }
 }

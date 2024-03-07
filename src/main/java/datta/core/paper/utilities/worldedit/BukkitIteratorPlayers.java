@@ -1,5 +1,6 @@
-package datta.core.paper.utilities;
+package datta.core.paper.utilities.worldedit;
 
+import datta.core.paper.utilities.player.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -8,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
-import static datta.core.paper.utilities.Color.format;
+import static datta.core.paper.utilities.Color.co;
 
 public class BukkitIteratorPlayers {
 
@@ -17,14 +18,14 @@ public class BukkitIteratorPlayers {
 
     public static void sendTitle(String title, String subtitle) {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendTitle(format(title), format(subtitle));
+            player.sendTitle(co(title), co(subtitle));
         }
         sendSound(Sound.ENTITY_ITEM_PICKUP);
     }
 
     public static void sendTitle(String title, String subtitle, int fade, int duration) {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendTitle(format(title), format(subtitle),fade,duration,fade);
+            player.sendTitle(co(title), co(subtitle),fade,duration,fade);
         }
     }
 
@@ -46,13 +47,15 @@ public class BukkitIteratorPlayers {
 
     public static void sendMessage(String message) {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendMessage(format(player, message));
+            player.sendMessage(co(player, message));
         }
     }
 
     public static void sendActionBar(String message) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendActionBar(format(player, message));
+        if (!Bukkit.getOnlinePlayers().stream().toList().isEmpty()) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+               PlayerUtil.sendBar(player, message);
+            }
         }
     }
 
@@ -84,7 +87,7 @@ public class BukkitIteratorPlayers {
 
     public static void kick(String reason) {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.kickPlayer(format(reason));
+            player.kickPlayer(co(reason));
         }
     }
 

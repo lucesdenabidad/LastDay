@@ -11,7 +11,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.List;
 
-import static datta.core.paper.utilities.Color.format;
+import static datta.core.paper.utilities.Color.co;
 import static datta.core.paper.utilities.Color.formatList;
 
 public class ScoreHolder implements Listener {
@@ -50,7 +50,7 @@ public class ScoreHolder implements Listener {
     public void updateScoreboard(Player player) {
         if (!ScoreHelper.hasScore(player)) {
             ScoreHelper helper = ScoreHelper.createScore(player);
-            helper.setTitle(format(player, title));
+            helper.setTitle(co(player, title));
         }
 
         ScoreHelper helper = ScoreHelper.getByPlayer(player);

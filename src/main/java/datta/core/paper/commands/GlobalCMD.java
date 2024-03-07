@@ -16,8 +16,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static datta.core.paper.utilities.Utils.send;
-import static datta.core.paper.utilities.Utils.sendA;
+import static datta.core.paper.utilities.player.PlayerUtil.send;
+import static datta.core.paper.utilities.player.PlayerUtil.sendBar;
 
 public class GlobalCMD extends BaseCommand {
 
@@ -55,7 +55,7 @@ public class GlobalCMD extends BaseCommand {
                 for (; index < endIndex; index++) {
                     Player target = onlinePlayers.get(index);
                     teleportAroundPlayer(target, player);
-                    sendA(player, "&a> " + target.getName() + "...");
+                    sendBar(player, "&a> " + target.getName() + "...");
                 }
 
                 if (index >= totalPlayers) {
@@ -92,6 +92,15 @@ public class GlobalCMD extends BaseCommand {
         } else {
             send(player, "&c&lEvento &8> &f¡Jugador no encontrado o no está en línea!");
         }
+    }
+
+
+    @CommandPermission("core.admin")
+    @CommandAlias("configreload")
+    public void configreload(CommandSender sender) {
+        Core.getInstance().getConfig().reload();
+        Core.getInstance().getConfig().safeSave();
+        send(sender, "&e&lEvento &8> &fConfiguración cargada.");
     }
 
     @CommandPermission("core.admin")

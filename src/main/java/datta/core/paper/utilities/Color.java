@@ -71,15 +71,15 @@ public class Color {
     }
 
 
-    public static String format(String content, Object... objects) {
+    public static String co(String content, Object... objects) {
 
         if (content == null) {
             return "";
         }
-        return format(null, content, objects);
+        return co(null, content, objects);
     }
 
-    public static String format(Player player, String content, Object... objects) {
+    public static String co(Player player, String content, Object... objects) {
         if (content == null) {
             return "";
         }
@@ -88,19 +88,19 @@ public class Color {
             content = content.replace("{" + i + "}", String.valueOf(objects[i]));
         }
         if (player != null) content = PlaceholderAPI.setPlaceholders(player, content);
-        content = format(content);
+        content = co(content);
         return content;
     }
 
-    private static String format(String content) {
+    private static String co(String content) {
         if (content == null) {
             return "";
         }
 
-        return format(null, content);
+        return co(null, content);
     }
 
-    private static String format(Player player, String content) {
+    private static String co(Player player, String content) {
         if (player != null) content = PlaceholderAPI.setPlaceholders(player, content);
         content = translateColors(content);
 
@@ -130,7 +130,7 @@ public class Color {
         World world = location.getWorld();
 
 
-        String returned = format("{0}, {1}, {2} - {3}", x, y, z, world.getName());
+        String returned = co("{0}, {1}, {2} - {3}", x, y, z, world.getName());
 
         return returned;
     }
@@ -190,21 +190,21 @@ public class Color {
     public static List<String> formatList(List<String> list) {
         List<String> formatted = new ArrayList<>();
         for (String s : list)
-            formatted.add(format(s));
+            formatted.add(co(s));
 
         return formatted;
     }
 
     public static List<String> formatList(Player player,String ... list) {
         List<String> formatted = new ArrayList<>();
-        for (String s : list) formatted.add(format(player, s));
+        for (String s : list) formatted.add(co(player, s));
 
         return formatted;
     }
 
     public static List<String> formatList(Player player, List<String> list) {
         List<String> formatted = new ArrayList<>();
-        for (String s : list) formatted.add(format(player, s));
+        for (String s : list) formatted.add(co(player, s));
 
         return formatted;
     }

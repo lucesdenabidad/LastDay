@@ -1,12 +1,13 @@
 package datta.core.paper.task;
 
 import datta.core.paper.Core;
+import datta.core.paper.utilities.Color;
 import org.bukkit.Bukkit;
 
 import java.util.List;
 import java.util.Random;
 
-import static datta.core.paper.utilities.Color.format;
+import static datta.core.paper.utilities.Color.co;
 
 public class BroadcastSenderTask {
     static int time = 300; // 5 minutos
@@ -37,7 +38,7 @@ public class BroadcastSenderTask {
 
             for (int var3 = 0; var3 < var2; ++var3) {
                 String s = var1[var3];
-                Bukkit.broadcastMessage(format(s));
+                Bukkit.broadcastMessage(Color.co(s));
             }
 
         }

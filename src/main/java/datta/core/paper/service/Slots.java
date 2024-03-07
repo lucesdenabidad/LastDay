@@ -10,7 +10,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
 
-import static datta.core.paper.utilities.Utils.send;
+import static datta.core.paper.utilities.player.PlayerUtil.send;
+
 
 public class Slots extends BaseCommand implements Listener {
     public static int slots = Core.getInstance().getServer().getMaxPlayers();

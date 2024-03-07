@@ -1,4 +1,4 @@
-name: Core
+name: LastDay
 version: '${project.version}'
 main: datta.core.paper.Core
 api-version: '1.19'
